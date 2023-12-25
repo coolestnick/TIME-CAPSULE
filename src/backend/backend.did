@@ -1,0 +1,15 @@
+type Error = variant { NotFound : record { msg : text } };
+type Result = variant { Ok : TimeCapsule; Err : Error };
+type TimeCapsule = record { id : nat64; content : text; unlock_date : nat64 };
+type TimeCapsulePayload = record { content : text; unlock_date : nat64 };
+service : {
+  add_time_capsule : (TimeCapsulePayload) -> (opt TimeCapsule);
+  delete_time_capsule : (nat64) -> (Result);
+  get_all_time_capsules : () -> (vec TimeCapsule) query;
+  get_time_capsule : (nat64) -> (Result) query;
+  get_time_capsules_before_date : (nat64) -> (vec TimeCapsule) query;
+  get_time_capsules_count_before_date : (nat64) -> (nat64) query;
+  get_total_time_capsules : () -> (nat64) query;
+  update_time_capsule : (nat64, TimeCapsulePayload) -> (Result);
+  update_unlock_date : (nat64, nat64) -> (Result);
+}
